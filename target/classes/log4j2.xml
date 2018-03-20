@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="log-path">G:\STS3.7.3Space\logs</Property>
+        <Property name="file-name">imht-web-service.log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <File name="File-Appender" fileName="${log-path}/${file-name}" >
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.mht.service" level="debug" additivity="false">
+        	<AppenderRef ref="File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Root>
+            <AppenderRef ref="File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Root>
+    </Loggers>
+</Configuration>

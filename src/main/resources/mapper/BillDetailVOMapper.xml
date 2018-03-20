@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mht.service.dao.BillDetailVOMapper" >
+  <resultMap id="BaseResultMap" type="com.mht.service.vo.BillDetailVO" >
+    <result column="bill_detail_id" property="billDetailId" jdbcType="VARCHAR" />
+    <result column="pre_Month_Principal" property="preMonthPrincipal" jdbcType="DOUBLE" />
+    <result column="current_Month_Principal" property="currentMonthPrincipal" jdbcType="DOUBLE" />
+    <result column="current_Month_Input" property="currentMonthInput" jdbcType="DOUBLE" />
+    <result column="currentMonthIncome" property="currentmonthincome" jdbcType="DOUBLE" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mht.service.vo.BillDetailVO" >
+    insert into bill_detail_t (bill_detail_id, pre_Month_Principal, current_Month_Principal, 
+      current_Month_Input, currentMonthIncome)
+    values (#{billDetailId,jdbcType=VARCHAR}, #{preMonthPrincipal,jdbcType=DOUBLE}, #{currentMonthPrincipal,jdbcType=DOUBLE}, 
+      #{currentMonthInput,jdbcType=DOUBLE}, #{currentmonthincome,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mht.service.vo.BillDetailVO" >
+    insert into bill_detail_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billDetailId != null" >
+        bill_detail_id,
+      </if>
+      <if test="preMonthPrincipal != null" >
+        pre_Month_Principal,
+      </if>
+      <if test="currentMonthPrincipal != null" >
+        current_Month_Principal,
+      </if>
+      <if test="currentMonthInput != null" >
+        current_Month_Input,
+      </if>
+      <if test="currentmonthincome != null" >
+        currentMonthIncome,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billDetailId != null" >
+        #{billDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="preMonthPrincipal != null" >
+        #{preMonthPrincipal,jdbcType=DOUBLE},
+      </if>
+      <if test="currentMonthPrincipal != null" >
+        #{currentMonthPrincipal,jdbcType=DOUBLE},
+      </if>
+      <if test="currentMonthInput != null" >
+        #{currentMonthInput,jdbcType=DOUBLE},
+      </if>
+      <if test="currentmonthincome != null" >
+        #{currentmonthincome,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+</mapper>

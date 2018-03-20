@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mht.service.dao.BillVOMapper" >
+  <resultMap id="BaseResultMap" type="com.mht.service.vo.BillVO" >
+    <result column="bill_id" property="billId" jdbcType="VARCHAR" />
+    <result column="bill_name" property="billName" jdbcType="VARCHAR" />
+    <result column="bill_desc" property="billDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="delete_user" property="deleteUser" jdbcType="VARCHAR" />
+    <result column="bill_detail_id" property="billDetailId" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mht.service.vo.BillVO" >
+    insert into bill_t (bill_id, bill_name, bill_desc, 
+      create_time, update_time, delete_time, 
+      create_user, update_user, delete_user, 
+      bill_detail_id)
+    values (#{billId,jdbcType=VARCHAR}, #{billName,jdbcType=VARCHAR}, #{billDesc,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{deleteUser,jdbcType=VARCHAR}, 
+      #{billDetailId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mht.service.vo.BillVO" >
+    insert into bill_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        bill_id,
+      </if>
+      <if test="billName != null" >
+        bill_name,
+      </if>
+      <if test="billDesc != null" >
+        bill_desc,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="deleteUser != null" >
+        delete_user,
+      </if>
+      <if test="billDetailId != null" >
+        bill_detail_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="billName != null" >
+        #{billName,jdbcType=VARCHAR},
+      </if>
+      <if test="billDesc != null" >
+        #{billDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteUser != null" >
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="billDetailId != null" >
+        #{billDetailId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

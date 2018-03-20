@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.jsp" PATH="/login.jsp"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.jsp:0" NAME="item" PATH="/login.jsp" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="success::#FrameLayout#framelayout.jsf"
+    NAME="output" PATH="/FrameLayout/framelayout.jsf"
+    TARGET="rules:#FrameLayout#framelayout.jsf" TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="fail::#fail.jsp" NAME="output1"
+    PATH="/fail.jsp" TARGET="rules:#fail.jsp" TITLE="fail" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="logout::#logout.jsp" NAME="output2"
+    PATH="/logout.jsp" TARGET="rules:#logout.jsp" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#FrameLayout#framelayout.jsf"
+  PATH="/FrameLayout/framelayout.jsf" SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#logout.jsp" PATH="/logout.jsp"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#fail.jsp" PATH="/fail.jsp"
+  SHAPE="272,209,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
