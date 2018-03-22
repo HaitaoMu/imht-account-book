@@ -1,6 +1,7 @@
 package com.mht.service.vo;
 
 public class BillDetailVO {
+
 	private String billDetailId;
 
 	private Double preMonthPrincipal;

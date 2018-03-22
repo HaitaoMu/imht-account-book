@@ -5,14 +5,22 @@
     <result column="bill_id" property="billId" jdbcType="VARCHAR" />
     <result column="bill_name" property="billName" jdbcType="VARCHAR" />
     <result column="bill_desc" property="billDesc" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="update_time" property="updateTime" jdbcType="DATE" />
+    <result column="delete_time" property="deleteTime" jdbcType="DATE" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="delete_user" property="deleteUser" jdbcType="VARCHAR" />
     <result column="bill_detail_id" property="billDetailId" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <select id="queryBillList" resultMap="BaseResultMap">
+  	select bill_id, bill_name, bill_desc, 
+      create_time, update_time, delete_time, 
+      create_user, update_user, delete_user, 
+      bill_detail_id from bill_t
+  </select>
+  
   <insert id="insert" parameterType="com.mht.service.vo.BillVO" >
     insert into bill_t (bill_id, bill_name, bill_desc, 
       create_time, update_time, delete_time, 

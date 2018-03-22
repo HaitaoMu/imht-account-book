@@ -26,6 +26,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("/login");
         registry.addViewController("/login").setViewName("/login");
         registry.addViewController("/register").setViewName("/register");
+        registry.addViewController("/accountList").setViewName("/accountManage");
     }
 
     /**
