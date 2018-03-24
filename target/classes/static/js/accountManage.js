@@ -7,9 +7,64 @@ $(function () {
     //2.初始化Button的点击事件
     var oButtonInit = new ButtonInit();
     oButtonInit.Init();
+ 
+    //禁用空白处点击关闭
+    $('#addModel').modal({
+  	  backdrop: 'static',
+  	  keyboard: true,//禁止键盘
+  	  show:false
+     });
+    
+    centerModals();
+    
+    //页面大小变化是仍然保证模态框水平垂直居中
+    $(window).on('resize', centerModals);
+    
+    $('form').submit(function (event) {
+        event.preventDefault(); 
+        var form = $(this);
+        if (!form.hasClass('fupload')) {
+          //普通表单
+          $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize()
+          }).success(function () {
+             $('#closeBtnForAddBill').click();
+             $.ajax({
+                 type: "get",
+                 url: "/imht-web-service/queryBillList",
+                 data: {},
+                 success: function (data) {
+                     $("#accountManage").bootstrapTable('refresh', data);
+                 },
+                 error: function () {
+
+                 },
+                 complete: function () {
+
+                 }
+
+             });             
+             oTable.ToolTip("success");
+          }).fail(function (jqXHR, textStatus, errorThrown) {
+        	  oTable.ToolTip("error");
+          });
+        }
+    });
 });
 
-
+//模态框居中
+function centerModals() {   
+　　$('#addModal').each(function(i) {   
+　　　　var $clone = $(this).clone().css('display','block').appendTo('body');
+　　　　var top = Math.round(($clone.height() - $clone.find('.modal-content').height()) / 2);
+　　　　top = top > 0 ? top : 0;   
+　　　　$clone.remove();   
+　　　　$(this).find('.modal-content').css("margin-top", top);   
+　　});   
+};
+	
 var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
@@ -43,23 +98,42 @@ var TableInit = function () {
                 checkbox: true
             }, {
                 field: 'billName',
-                title: '账目名称'
+                title: '账目名称',
+                editable:true
             }, {
                 field: 'billDesc',
-                title: '账目描述'
+                title: '账目描述',
+                editable:true
             }, {
                 field: 'createTime',
                 title: '创建时间'
             }, {
                 field: 'createUser',
                 title: '创建人'
-            }, {
-                field: 'billDetailId',
-                title: '账目详情'
             }],
           //注册加载子表的事件。注意下这里的三个参数！
             onExpandRow: function (index, row, $detail) {
             	oTableInit.InitSubTable(index, row, $detail);
+            },
+            //编辑保存事件
+            onEditableSave: function (field, row, oldValue, $el) {
+                $.ajax({
+                    type: "post",
+                    url: "/imht-web-service/updateBill",
+                    data: { billId:row.billId,
+                    	billName:row.billName,
+                    	billDesc:row.billDesc},
+                    success: function (data, status) {
+                    	oTableInit.ToolTip("success");
+                    },
+                    error: function () {
+                    	oTableInit.ToolTip("error");
+                    },
+                    complete: function () {
+
+                    }
+
+                });
             }
         });
     };
@@ -76,38 +150,90 @@ var TableInit = function () {
         return temp;
     };
     
-  //初始化子表格(无线循环)
+    //操作提示框
+    oTableInit.ToolTip = function(type){
+    	if("success" == type){	
+	    	$('#mySuccessAlert').show();
+	    	setTimeout(function(){
+	    		$('#mySuccessAlert').hide();
+	    	},1000);
+    	}else{
+	    	$('#myErrorAlert').show();
+	    	setTimeout(function(){
+	    		$('#myErrorAlert').hide();
+	    	},1000);
+		}
+    },
+    
+   //初始化子表格(无线循环)
     oTableInit.InitSubTable = function (index, row, $detail) {
-        var parentid = row.billDetailId;
+        var parentId = row.billId;
         var cur_table = $detail.html('<table></table>').find('table');
         $(cur_table).bootstrapTable({
-            url: '/queryBillDetailList',
+            url: '/imht-web-service/queryBillDetailList',
             method: 'get',
-            queryParams: { strParentID: parentid },
-            ajaxOptions: { strParentID: parentid },
+            queryParams: { billDetailId: parentId },
+            ajaxOptions: { billDetailId: parentId },
             clickToSelect: true,
-            detailView: true,//父子表
+            cache: false, 
+            detailView: false,//父子表
             uniqueId: "billDetailId",
             pageSize: 10,
             pageList: [10, 25],
-            columns: [{
-                checkbox: true
-            }, {
+            columns: [
+            	{
+                field: 'currentYear',
+                title: '当前年份'
+            },
+            	{
+                field: 'currentMonth',
+                title: '当前月份'
+            },
+            	{
                 field: 'preMonthPrincipal',
-                title: '上月本息和'
+                title: '上月本息和',
+                editable:true
             }, {
                 field: 'currentMonthPrincipal',
-                title: '当月本息和'
+                title: '当月本息和',
+                editable:true
             }, {
                 field: 'currentMonthInput',
-                title: '当月投入'
+                title: '当月投入',
+                editable:true
             }, {
-                field: 'currentmonthincome',
-                title: '当月收益'
-            }, ],
+                field: 'currentMonthIncome',
+                title: '当月收益',
+                editable:true
+            } ],
             //无线循环取子表，直到子表里面没有记录
             onExpandRow: function (index, row, $Subdetail) {
             	oTableInit.InitSubTable(index, row, $Subdetail);
+            },
+            //编辑保存事件
+            onEditableSave: function (field, row, oldValue, $el) {
+                $.ajax({
+                    type: "post",
+                    url: "/imht-web-service/saveDetailBill",
+                    data: {billId:row.billId,
+                    	currentYear:row.currentYear, 
+                    	currentMonth:row.currentMonth,
+                    	billDetailId:row.billDetailId,
+                    	preMonthPrincipal:row.preMonthPrincipal,
+                    	currentMonthPrincipal:row.currentMonthPrincipal,
+                    	currentMonthInput:row.currentMonthInput,
+                    	currentMonthIncome:row.currentMonthIncome},
+                    success: function (data, status) {
+                    	oTableInit.ToolTip("success");
+                    },
+                    error: function () {
+                    	oTableInit.ToolTip("error");
+                    },
+                    complete: function () {
+
+                    }
+
+                });
             }
         });
     };

@@ -11,26 +11,27 @@
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="delete_user" property="deleteUser" jdbcType="VARCHAR" />
-    <result column="bill_detail_id" property="billDetailId" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="queryBillList" resultMap="BaseResultMap">
   	select bill_id, bill_name, bill_desc, 
       create_time, update_time, delete_time, 
-      create_user, update_user, delete_user, 
-      bill_detail_id from bill_t
+      create_user, update_user, delete_user from bill_t
   </select>
   
   <insert id="insert" parameterType="com.mht.service.vo.BillVO" >
-    insert into bill_t (bill_id, bill_name, bill_desc, 
+    replace into bill_t (bill_id, bill_name, bill_desc, 
       create_time, update_time, delete_time, 
-      create_user, update_user, delete_user, 
-      bill_detail_id)
+      create_user, update_user, delete_user)
     values (#{billId,jdbcType=VARCHAR}, #{billName,jdbcType=VARCHAR}, #{billDesc,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{deleteUser,jdbcType=VARCHAR}, 
-      #{billDetailId,jdbcType=VARCHAR})
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{deleteUser,jdbcType=VARCHAR})
   </insert>
+  
+  <update id="update" parameterType="com.mht.service.vo.BillVO" >
+    update bill_t set bill_name = #{billName,jdbcType=VARCHAR}, bill_desc = #{billDesc,jdbcType=VARCHAR} where bill_id = #{billId,jdbcType=VARCHAR}
+  </update>
+  
   <insert id="insertSelective" parameterType="com.mht.service.vo.BillVO" >
     insert into bill_t
     <trim prefix="(" suffix=")" suffixOverrides="," >

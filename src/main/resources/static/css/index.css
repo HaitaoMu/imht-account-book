@@ -68,7 +68,7 @@ body{	font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Ari
 #iconDivMain1{width:0 !important;height:0 !important}
 #div_company_mini{right:0 !important}
 #loginModal .modal-content{border-radius:0}
-#loginModal .col-left{width:225px;height:319px;background:url(../images/sprite_0.png) 0 -717px no-repeat}
+#loginModal .col-left{width:225px;height:319px;background:url(../images/dandan.jpg) 0 -717px no-repeat;}
 #loginModal .col-right{width:313px;height:319px;color:#b2b2b2}
 #loginModal .form-group{margin-bottom:10px}
 #loginModal .modal-body{height:263px}
@@ -119,3 +119,8 @@ body{	font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Ari
 .transition{-webkit-transition:all .3s ease-out 0s;-moz-transition:all .3s ease-out 0s;-o-transition:all .3s ease-out 0s;transition:all .3s ease-out 0s}
 .W1160{width:1160px;margin:0 auto}
 .index .video_introduce ul li,.index .good-lesson,.index .gold-teacher,.index .king-course,.index .job-path,.index .community_news,.index .cooperate .col_left,.index .cooperate .col_right,.index .media_reports .col_left,.index .media_reports .col_right{background-color:#fff}
+.loginBackCss{
+	background:url(../images/dandan.jpg) center; 
+	vertical-align:middle; 
+	display:table-cell;
+}

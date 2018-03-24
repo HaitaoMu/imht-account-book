@@ -6,14 +6,24 @@
     <result column="pre_Month_Principal" property="preMonthPrincipal" jdbcType="DOUBLE" />
     <result column="current_Month_Principal" property="currentMonthPrincipal" jdbcType="DOUBLE" />
     <result column="current_Month_Input" property="currentMonthInput" jdbcType="DOUBLE" />
-    <result column="currentMonthIncome" property="currentmonthincome" jdbcType="DOUBLE" />
+    <result column="current_Month_Income" property="currentMonthIncome" jdbcType="DOUBLE" />
+    <result column="current_month" property="currentMonth" jdbcType="INTEGER" />
+    <result column="current_year" property="currentYear" jdbcType="INTEGER" />
+    <result column="bill_id" property="billId" jdbcType="VARCHAR" />
   </resultMap>
+  
   <insert id="insert" parameterType="com.mht.service.vo.BillDetailVO" >
-    insert into bill_detail_t (bill_detail_id, pre_Month_Principal, current_Month_Principal, 
-      current_Month_Input, currentMonthIncome)
+    replace into bill_detail_t (bill_detail_id, pre_Month_Principal, current_Month_Principal, 
+      current_Month_Input, current_Month_Income, current_month, current_year, bill_id)
     values (#{billDetailId,jdbcType=VARCHAR}, #{preMonthPrincipal,jdbcType=DOUBLE}, #{currentMonthPrincipal,jdbcType=DOUBLE}, 
-      #{currentMonthInput,jdbcType=DOUBLE}, #{currentmonthincome,jdbcType=DOUBLE})
+      #{currentMonthInput,jdbcType=DOUBLE}, #{currentMonthIncome,jdbcType=DOUBLE}, #{currentMonth,jdbcType=INTEGER}, #{currentYear,jdbcType=INTEGER}, #{billId,jdbcType=VARCHAR})
   </insert>
+  
+  <select id="queryBillDetailList" resultMap="BaseResultMap">
+  	select bill_detail_id, pre_Month_Principal, current_Month_Principal, 
+      current_Month_Input, current_Month_Income, current_month, current_year, bill_id from bill_detail_t where bill_id = #{0}
+  </select>
+  
   <insert id="insertSelective" parameterType="com.mht.service.vo.BillDetailVO" >
     insert into bill_detail_t
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -29,8 +39,8 @@
       <if test="currentMonthInput != null" >
         current_Month_Input,
       </if>
-      <if test="currentmonthincome != null" >
-        currentMonthIncome,
+      <if test="currentMonthIncome != null" >
+        current_Month_Income,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -46,8 +56,8 @@
       <if test="currentMonthInput != null" >
         #{currentMonthInput,jdbcType=DOUBLE},
       </if>
-      <if test="currentmonthincome != null" >
-        #{currentmonthincome,jdbcType=DOUBLE},
+      <if test="currentMonthIncome != null" >
+        #{currentMonthIncome,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>

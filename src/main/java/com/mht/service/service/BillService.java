@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mht.service.dao.BillDetailVOMapper;
 import com.mht.service.dao.BillVOMapper;
+import com.mht.service.vo.BillDetailVO;
 import com.mht.service.vo.BillVO;
 
 /***
@@ -18,6 +20,9 @@ public class BillService {
 
 	@Autowired
 	private BillVOMapper billVOMapper;
+
+	@Autowired
+	private BillDetailVOMapper billDetailVOMapper;
 
 	/**
 	 * @Author: Mu Haitao
@@ -33,11 +38,40 @@ public class BillService {
 		}
 	}
 
+	public boolean saveDetailBill(BillDetailVO billVO) {
+		try {
+			billDetailVOMapper.insert(billVO);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	/**
 	 * @return
 	 */
 	public List<BillVO> queryBillList() {
 		return billVOMapper.queryBillList();
+	}
+
+	/**
+	 * @return
+	 */
+	public List<BillDetailVO> queryBillDetailList(String id) {
+		return billDetailVOMapper.queryBillDetailList(id);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public boolean updateBill(BillVO vo) {
+		try {
+			billVOMapper.update(vo);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

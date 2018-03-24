@@ -413,7 +413,7 @@ $(".class53").click(function () {
             var o = $(this),
                 a = o.find(".modal-dialog"),
                 t = $('<div style="display:table; width:100%; height:100%;"></div>');
-            t.html('<div style="background-color:grey; vertical-align:middle; display:table-cell;"></div>'), t.children("div").html(a), o.html(t)
+            t.html('<div class="loginBackCss"></div>'), t.children("div").html(a), o.html(t)
         })
     }();
 var zy_c_num = 60,

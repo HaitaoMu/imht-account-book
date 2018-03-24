@@ -1,3 +1,11 @@
 .search{
 	margin-right: 30px;
 }
+
+#example-navbar-collapse{
+	float: right;
+}
+
+#panel_body{
+	padding-bottom:0px;
+}

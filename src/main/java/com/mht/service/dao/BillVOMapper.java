@@ -7,6 +7,8 @@ import com.mht.service.vo.BillVO;
 public interface BillVOMapper {
 
 	int insert(BillVO record);
+	
+	int update(BillVO record);
 
 	int insertSelective(BillVO record);
 
