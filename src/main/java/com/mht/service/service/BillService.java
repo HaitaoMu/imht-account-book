@@ -1,5 +1,6 @@
 package com.mht.service.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,15 @@ public class BillService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/**
+	 * @param billIds
+	 * @return
+	 */
+	public Integer deleteBill(String user, Date deleteDate, List<String> billIds) {
+		// TODO Auto-generated method stub
+		return billVOMapper.deleteBill(user, deleteDate, billIds);
 	}
 
 }

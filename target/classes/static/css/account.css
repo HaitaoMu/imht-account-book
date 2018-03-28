@@ -9,3 +9,9 @@
 #panel_body{
 	padding-bottom:0px;
 }
+
+.billDetailAddBtn{
+    position: absolute;
+    left: -1px;
+    top: 3px;
+}

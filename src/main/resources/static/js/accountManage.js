@@ -31,27 +31,52 @@ $(function () {
             data: form.serialize()
           }).success(function () {
              $('#closeBtnForAddBill').click();
-             $.ajax({
-                 type: "get",
-                 url: "/imht-web-service/queryBillList",
-                 data: {},
-                 success: function (data) {
-                     $("#accountManage").bootstrapTable('refresh', data);
-                 },
-                 error: function () {
-
-                 },
-                 complete: function () {
-
-                 }
-
-             });             
+             refreshList();
              oTable.ToolTip("success");
           }).fail(function (jqXHR, textStatus, errorThrown) {
         	  oTable.ToolTip("error");
           });
         }
     });
+    
+    //页面删除操作
+    $("#btn_delete").on("click",function(){
+    	var deleteIdArray = [];
+        //收集页面中被选中的数据项
+        $("input[name='btSelectItem']").each(function(){
+            if($(this).is(':checked')){
+            	var billId = $(this).parent().parent().attr("data-uniqueid");
+            	deleteIdArray.push(billId);
+            }
+        });
+        if($.isEmptyObject(deleteIdArray))
+        {
+        	alert("请选中所要删除的数据项");
+        	return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/imht-web-service/deleteBill",
+            data: { billIds:deleteIdArray.toString()},
+            success: function (data) {
+            	refreshList();
+            	if(data > 0){
+            		oTable.ToolTip("success");
+            	}
+            	else{
+            		oTable.ToolTip("error");
+        		}
+            },
+            error: function () {
+            	oTable.ToolTip("error");
+            },
+            complete: function () {
+
+            }
+
+        });         
+    });
+
 });
 
 //模态框居中
@@ -65,6 +90,36 @@ function centerModals() {
 　　});   
 };
 	
+//刷新表格数据
+function refreshList(){
+    $.ajax({
+        type: "get",
+        url: "/imht-web-service/queryBillList",
+        data: {},
+        success: function (data) {
+            $("#accountManage").bootstrapTable('refresh', data);
+        },
+        error: function () {
+
+        },
+        complete: function () {
+
+        }
+
+    }); 	
+}
+
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    h = date.getHours() + ':';
+    m = date.getMinutes() + ':';
+    s = date.getSeconds();
+    return Y+M+D+h+m+s;
+}
+
 var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
@@ -106,7 +161,10 @@ var TableInit = function () {
                 editable:true
             }, {
                 field: 'createTime',
-                title: '创建时间'
+                title: '创建时间',
+                formatter: function indexFormatter(value, row, index) {//格式化时间
+                    return timestampToTime(value);
+                }                
             }, {
                 field: 'createUser',
                 title: '创建人'
@@ -114,6 +172,16 @@ var TableInit = function () {
           //注册加载子表的事件。注意下这里的三个参数！
             onExpandRow: function (index, row, $detail) {
             	oTableInit.InitSubTable(index, row, $detail);
+            	setTimeout(function(){
+	            	var addBtnHtml = "<button type='button' class='btn btn-default billDetailAddBtn' data-toggle='modal' data-target='#addModal'>"
+	                +"<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>新增</button>";
+	            	$("table[class='table table-hover']").find("thead").find("tr").each(function(){
+	            		if(!$(this).children().hasClass("billDetailAddBtn"))
+	            		{
+		            		$(this).append(addBtnHtml);	
+	            		}
+	            	});
+            	},10);
             },
             //编辑保存事件
             onEditableSave: function (field, row, oldValue, $el) {
@@ -181,6 +249,10 @@ var TableInit = function () {
             pageSize: 10,
             pageList: [10, 25],
             columns: [
+            	{
+                field: 'operator',
+                title: '操作'
+            },            	
             	{
                 field: 'currentYear',
                 title: '当前年份'

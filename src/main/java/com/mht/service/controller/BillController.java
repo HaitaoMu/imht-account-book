@@ -1,11 +1,13 @@
 package com.mht.service.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mht.service.service.BillService;
@@ -27,7 +29,13 @@ public class BillController {
 	public boolean addBill(BillVO vo) {
 		vo.setBillId(UUID.randomUUID().toString());
 		vo.setCreateUser("muhaitao");
+		vo.setCreateTime(new Date());
 		return billService.saveBill(vo);
+	}
+
+	@PostMapping("/deleteBill")
+	public Integer deleteBill(@RequestParam("billIds") List<String> billIds) {
+		return billService.deleteBill("chenyan", new Date(), billIds);
 	}
 
 	@PostMapping("/updateBill")
